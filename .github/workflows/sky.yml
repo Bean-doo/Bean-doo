@@ -1,0 +1,43 @@
+name: Living scene
+
+on:
+  schedule:
+    - cron: "23 */3 * * *"
+  workflow_dispatch:
+    inputs:
+      weather:
+        description: "Pin the weather — clear/clouds/rain/snow/fog/storm. Blank uses the real forecast."
+        required: false
+        default: ""
+      season:
+        description: "Pin the season — spring/summer/autumn/winter. Blank uses today's date."
+        required: false
+        default: ""
+      force:
+        description: "Re-render even if the scene has not changed"
+        required: false
+        default: "false"
+
+permissions:
+  contents: write
+
+jobs:
+  scene:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      # 注意: 这里用的是原作者的 living-scene 生成器（无颜色参数）。
+      # 想让天空/页脚保持蓝黄色调，需 fork yuki4266/living-scene 并改其配色,
+      # 然后把下面改成 uses: Bean-doo/living-scene@v1
+      - uses: yuki4266/living-scene@v1
+        with:
+          lat: "30.27"          # TODO: 改成你所在城市的纬度（示例: 杭州）
+          lon: "120.15"         # TODO: 改成你所在城市的经度
+          tz: Asia/Shanghai
+          weather: ${{ inputs.weather }}
+          season: ${{ inputs.season }}
+          force: ${{ inputs.force }}
+          commit-message: "🌦 scene sync: {state}"
