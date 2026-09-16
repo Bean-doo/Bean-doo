@@ -34,8 +34,8 @@ jobs:
       # 然后把下面改成 uses: Bean-doo/living-scene@v1
       - uses: yuki4266/living-scene@v1
         with:
-          lat: "30.27"          # TODO: 改成你所在城市的纬度（示例: 杭州）
-          lon: "120.15"         # TODO: 改成你所在城市的经度
+          lat: "32.06"          # 南京
+          lon: "118.80"
           tz: Asia/Shanghai
           weather: ${{ inputs.weather }}
           season: ${{ inputs.season }}
